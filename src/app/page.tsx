@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Eye, Lock, EyeOff, Upload, X, CheckCircle } from "lucide-react";
 
 export default function Home() {
@@ -15,6 +15,27 @@ export default function Home() {
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   const [showCommunityGuidelines, setShowCommunityGuidelines] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [countdown, setCountdown] = useState(5);
+
+  // Auto-redirect after successful submission
+  useEffect(() => {
+    if (isSubmitted && countdown > 0) {
+      const timer = setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else if (isSubmitted && countdown === 0) {
+      // Reset to home page
+      setIsSubmitted(false);
+      setFormData({
+        incidentType: "",
+        description: "",
+      });
+      setFiles([]);
+      setErrors({});
+      setCountdown(5); // Reset countdown for next submission
+    }
+  }, [isSubmitted, countdown]);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -56,17 +77,25 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to submit report');
+        let errorMessage = 'Failed to submit report';
+        try {
+          const error = await response.json();
+          errorMessage = error.error || error.message || errorMessage;
+        } catch {
+          errorMessage = `Server error: ${response.status} ${response.statusText}`;
+        }
+        throw new Error(errorMessage);
       }
 
       const result = await response.json();
       console.log('Report submitted successfully:', result);
       setIsSubmitted(true);
+      setCountdown(5); // Reset countdown
       
     } catch (error) {
       console.error('Error submitting report:', error);
-      setErrors({ submit: 'Failed to submit report. Please try again.' });
+      const errorMessage = error instanceof Error ? error.message : 'Failed to submit report. Please try again.';
+      setErrors({ submit: errorMessage });
     } finally {
       setIsSubmitting(false);
     }
@@ -115,6 +144,11 @@ export default function Home() {
             No personal information, IP addresses, or identifying data was
             collected or stored.
           </p>
+          <div className="mb-4">
+            <p className="text-sm text-blue-400">
+              Returning to home page in {countdown} second{countdown !== 1 ? 's' : ''}...
+            </p>
+          </div>
           <button
             onClick={() => {
               setIsSubmitted(false);
@@ -124,10 +158,11 @@ export default function Home() {
               });
               setFiles([]);
               setErrors({});
+              setCountdown(5);
             }}
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors focus:ring-4 focus:ring-blue-500/50"
           >
-            Submit Another Report
+            Submit Another Report Now
           </button>
         </div>
       </div>
