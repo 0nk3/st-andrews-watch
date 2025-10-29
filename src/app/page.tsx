@@ -129,52 +129,10 @@ export default function Home() {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  if (isSubmitted) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center p-4">
-        <div className="max-w-lg w-full bg-gray-900 rounded-xl shadow-2xl p-8 text-center border border-gray-800">
-          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-white mb-4">
-            Report Submitted Safely
-          </h1>
-          <p className="text-gray-300 mb-4">
-            Your anonymous report has been securely submitted. You are completely
-            protected - no one can trace this report back to you or retaliate
-            against you.
-          </p>
-          <p className="text-sm text-gray-400 mb-6">
-            No personal information, IP addresses, or identifying data was
-            collected or stored.
-          </p>
-          <div className="mb-4">
-            <p className="text-sm text-blue-400">
-              Returning to home page in {countdown} second{countdown !== 1 ? 's' : ''}...
-            </p>
-          </div>
-          <button
-            onClick={() => {
-              setIsSubmitted(false);
-              setFormData({
-                incidentType: "",
-                description: "",
-              });
-              setFiles([]);
-              setErrors({});
-              setCountdown(5);
-            }}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors focus:ring-4 focus:ring-blue-500/50"
-          >
-            Submit Another Report Now
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Header */}
-      <header className="bg-gray-900 border-b border-gray-800 shadow-xl">
+      {/* Header - always visible */}
+      <header className="bg-gray-900 border-b border-gray-800 shadow-xl sticky top-0 z-20">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <button
             type="button"
@@ -198,252 +156,293 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        {/* Anonymity Banner */}
-        <div className="bg-gray-900 border border-blue-500/30 rounded-xl p-6 mb-8 shadow-lg">
-          <div className="flex items-start gap-4">
-            <Lock className="w-6 h-6 text-blue-500 mt-1 flex-shrink-0" />
-            <div className="flex-1">
-              <h2 className="font-semibold text-blue-400 mb-2 text-lg">
-                Anonymity: No social pressure, no retaliation and no intimidation
-              </h2>
-              <p className="text-gray-300 text-sm mb-3 leading-relaxed">
-                Report incidents without fear of intimidation or targeting. This
-                platform ensures complete anonymity - no one can trace reports
-                back to you, protecting you from retaliation by offenders or
-                social pressure.
+      {/* Main Content */}
+      {isSubmitted ? (
+        <div className="min-h-[60vh] flex items-center justify-center p-4">
+          <div className="max-w-lg w-full bg-gray-900 rounded-xl shadow-2xl p-8 text-center border border-gray-800">
+            <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-white mb-4">
+              Report Submitted Safely
+            </h1>
+            <p className="text-gray-300 mb-4">
+              Your anonymous report has been securely submitted. You are completely
+              protected - no one can trace this report back to you or retaliate
+              against you.
+            </p>
+            <p className="text-sm text-gray-400 mb-6">
+              No personal information, IP addresses, or identifying data was
+              collected or stored.
+            </p>
+            <div className="mb-4">
+              <p className="text-sm text-blue-400">
+                Returning to home page in {countdown} second{countdown !== 1 ? 's' : ''}...
               </p>
-              <button
-                onClick={() => setShowAnonymityInfo(!showAnonymityInfo)}
-                className="flex items-center gap-2 text-blue-400 text-sm hover:text-blue-300 transition-colors"
-              >
-                {showAnonymityInfo ? (
-                  <EyeOff className="w-4 h-4" />
-                ) : (
-                  <Eye className="w-4 h-4" />
-                )}
-                {showAnonymityInfo
-                  ? "Hide details"
-                  : "Learn more about our privacy protection"}
-              </button>
-              {showAnonymityInfo && (
-                <div className="mt-4 p-4 bg-gray-800 rounded-lg border border-gray-700 text-sm">
-                  <div className="space-y-4">
-                    <div>
-                      <p className="font-medium text-blue-400 mb-2">
-                        Technical Protection:
-                      </p>
-                      <ul className="space-y-1 text-gray-300">
-                        <li>• No IP address logging or tracking</li>
-                        <li>• No cookies or session storage</li>
-                        <li>• Files are stripped of metadata</li>
-                        <li>• Reports are encrypted during transmission</li>
-                        <li>• No account creation required</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <p className="font-medium text-blue-400 mb-2">
-                        Community Initiative:
-                      </p>
-                      <ul className="space-y-1 text-gray-300">
-                        <li>• Created and maintained by St. Andrews trustee</li>
-                        <li>• Free service - no cost to residents</li>
-                        <li>• Privately funded hosting on secure servers</li>
-                        <li>• Available throughout trustee term</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <p className="font-medium text-blue-400 mb-2">
-                        Why This Matters:
-                      </p>
-                      <p className="text-gray-300">
-                        We know reporting to estate security can lead to
-                        intimidation when offenders discover who reported them.
-                        This platform breaks that cycle by ensuring true
-                        anonymity.
-                      </p>
+            </div>
+            <button
+              onClick={() => {
+                setIsSubmitted(false);
+                setFormData({
+                  incidentType: "",
+                  description: "",
+                });
+                setFiles([]);
+                setErrors({});
+                setCountdown(5);
+              }}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors focus:ring-4 focus:ring-blue-500/50"
+            >
+              Submit Another Report Now
+            </button>
+          </div>
+        </div>
+      ) : (
+        <main className="max-w-4xl mx-auto px-4 py-8">
+          {/* Anonymity Banner */}
+          <div className="bg-gray-900 border border-blue-500/30 rounded-xl p-6 mb-8 shadow-lg">
+            <div className="flex items-start gap-4">
+              <Lock className="w-6 h-6 text-blue-500 mt-1 flex-shrink-0" />
+              <div className="flex-1">
+                <h2 className="font-semibold text-blue-400 mb-2 text-lg">
+                  Anonymity: No social pressure, no retaliation and no intimidation
+                </h2>
+                <p className="text-gray-300 text-sm mb-3 leading-relaxed">
+                  Report incidents without fear of intimidation or targeting. This
+                  platform ensures complete anonymity - no one can trace reports
+                  back to you, protecting you from retaliation by offenders or
+                  social pressure.
+                </p>
+                <button
+                  onClick={() => setShowAnonymityInfo(!showAnonymityInfo)}
+                  className="flex items-center gap-2 text-blue-400 text-sm hover:text-blue-300 transition-colors"
+                >
+                  {showAnonymityInfo ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                  {showAnonymityInfo
+                    ? "Hide details"
+                    : "Learn more about our privacy protection"}
+                </button>
+                {showAnonymityInfo && (
+                  <div className="mt-4 p-4 bg-gray-800 rounded-lg border border-gray-700 text-sm">
+                    <div className="space-y-4">
+                      <div>
+                        <p className="font-medium text-blue-400 mb-2">
+                          Technical Protection:
+                        </p>
+                        <ul className="space-y-1 text-gray-300">
+                          <li>• No IP address logging or tracking</li>
+                          <li>• No cookies or session storage</li>
+                          <li>• Files are stripped of metadata</li>
+                          <li>• Reports are encrypted during transmission</li>
+                          <li>• No account creation required</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <p className="font-medium text-blue-400 mb-2">
+                          Community Initiative:
+                        </p>
+                        <ul className="space-y-1 text-gray-300">
+                          <li>• Created and maintained by St. Andrews trustee</li>
+                          <li>• Free service - no cost to residents</li>
+                          <li>• Privately funded hosting on secure servers</li>
+                          <li>• Available throughout trustee term</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <p className="font-medium text-blue-400 mb-2">
+                          Why This Matters:
+                        </p>
+                        <p className="text-gray-300">
+                          We know reporting to estate security can lead to
+                          intimidation when offenders discover who reported them.
+                          This platform breaks that cycle by ensuring true
+                          anonymity.
+                        </p>
+                      </div>
                     </div>
                   </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Error Message */}
+          {errors.submit && (
+            <div className="bg-red-900/50 border border-red-500 rounded-lg p-4 mb-6">
+              <p className="text-red-200 text-sm">{errors.submit}</p>
+            </div>
+          )}
+
+          {/* Main Form */}
+          <form
+            onSubmit={handleSubmit}
+            className="bg-gray-900 rounded-xl shadow-2xl p-8 border border-gray-800"
+          >
+            <h2 className="text-xl font-semibold text-white mb-6">
+              Submit Anonymous Report (Crime, Rule-breaking, or Concern)
+            </h2>
+
+            {/* Incident Type */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Type of Incident *
+              </label>
+              <select
+                value={formData.incidentType}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    incidentType: e.target.value,
+                  }))
+                }
+                disabled={isSubmitting}
+                className={`w-full px-4 py-3 bg-gray-800 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+                  errors.incidentType ? "border-red-500" : "border-gray-700"
+                }`}
+              >
+                <option value="" className="text-gray-400">
+                  Select incident type
+                </option>
+                <option value="housebreaking">Housebreaking & Theft</option>
+                <option value="car-theft">Vehicle Theft/Hijacking</option>
+                <option value="armed-robbery">Armed Robbery</option>
+                <option value="assault">Assault/Violence</option>
+                <option value="domestic-violence">Domestic Violence</option>
+                <option value="drug-dealing">Drug Dealing/Trafficking</option>
+                <option value="prostitution">Prostitution</option>
+                <option value="noise-disturbance">
+                  Noise Disturbance/Parties
+                </option>
+                <option value="vandalism">Vandalism/Property Damage</option>
+                <option value="trespassing">Trespassing</option>
+                <option value="fraud">Fraud/Scams</option>
+                <option value="corruption">Police/Official Corruption</option>
+                <option value="suspicious-activity">Suspicious Activity</option>
+                <option value="other">Other</option>
+              </select>
+              {errors.incidentType && (
+                <p className="text-red-400 text-sm mt-1">
+                  {errors.incidentType}
+                </p>
+              )}
+            </div>
+
+            {/* Description */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Detailed Description *
+              </label>
+              <textarea
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
+                }
+                disabled={isSubmitting}
+                placeholder="Please provide a detailed description of the incident..."
+                rows={4}
+                maxLength={500}
+                className={`w-full px-4 py-3 bg-gray-800 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white placeholder-gray-400 resize-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+                  errors.description ? "border-red-500" : "border-gray-700"
+                }`}
+              />
+              <div className="flex justify-between items-center mt-2">
+                <div>
+                  {errors.description && (
+                    <p className="text-red-400 text-sm">{errors.description}</p>
+                  )}
+                </div>
+                <p
+                  className={`text-xs ${
+                    formData.description.length > 450
+                      ? "text-orange-400"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {formData.description.length}/500 characters
+                </p>
+              </div>
+            </div>
+
+            {/* File Upload */}
+            <div className="mb-8">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Attach Evidence (Optional)
+              </label>
+              <div className="border-2 border-dashed border-gray-700 rounded-lg p-6 text-center hover:border-blue-500 transition-colors bg-gray-800/50">
+                <Upload className="w-8 h-8 text-gray-500 mx-auto mb-3" />
+                <p className="text-sm text-gray-300 mb-2">
+                  Upload images, PDFs, or Word documents
+                </p>
+                <input
+                  type="file"
+                  multiple
+                  accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx"
+                  onChange={handleFileUpload}
+                  disabled={isSubmitting}
+                  className="hidden"
+                  id="file-upload"
+                />
+                <label
+                  htmlFor="file-upload"
+                  className={`cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors inline-block font-medium ${
+                    isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  Choose Files
+                </label>
+                <p className="text-xs text-gray-500 mt-2">
+                  Max 10MB per file. Metadata will be automatically removed.
+                </p>
+              </div>
+
+              {/* File List */}
+              {files.length > 0 && (
+                <div className="mt-4 space-y-2">
+                  {files.map((file, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between bg-gray-800 p-3 rounded-lg border border-gray-700"
+                    >
+                      <span className="text-sm text-gray-300 truncate flex-1">
+                        {file.name}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => removeFile(index)}
+                        disabled={isSubmitting}
+                        className="text-red-400 hover:text-red-300 ml-2 p-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
-          </div>
-        </div>
 
-        {/* Error Message */}
-        {errors.submit && (
-          <div className="bg-red-900/50 border border-red-500 rounded-lg p-4 mb-6">
-            <p className="text-red-200 text-sm">{errors.submit}</p>
-          </div>
-        )}
-
-        {/* Main Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-gray-900 rounded-xl shadow-2xl p-8 border border-gray-800"
-        >
-          <h2 className="text-xl font-semibold text-white mb-6">
-            Submit Anonymous Report (Crime, Rule-breaking, or Concern)
-          </h2>
-
-          {/* Incident Type */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Type of Incident *
-            </label>
-            <select
-              value={formData.incidentType}
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  incidentType: e.target.value,
-                }))
-              }
+            {/* Submit Button */}
+            <button
+              type="submit"
               disabled={isSubmitting}
-              className={`w-full px-4 py-3 bg-gray-800 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-                errors.incidentType ? "border-red-500" : "border-gray-700"
-              }`}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-medium transition-colors focus:ring-4 focus:ring-blue-500/50 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <option value="" className="text-gray-400">
-                Select incident type
-              </option>
-              <option value="housebreaking">Housebreaking & Theft</option>
-              <option value="car-theft">Vehicle Theft/Hijacking</option>
-              <option value="armed-robbery">Armed Robbery</option>
-              <option value="assault">Assault/Violence</option>
-              <option value="domestic-violence">Domestic Violence</option>
-              <option value="drug-dealing">Drug Dealing/Trafficking</option>
-              <option value="prostitution">Prostitution</option>
-              <option value="noise-disturbance">
-                Noise Disturbance/Parties
-              </option>
-              <option value="vandalism">Vandalism/Property Damage</option>
-              <option value="trespassing">Trespassing</option>
-              <option value="fraud">Fraud/Scams</option>
-              <option value="corruption">Police/Official Corruption</option>
-              <option value="suspicious-activity">Suspicious Activity</option>
-              <option value="other">Other</option>
-            </select>
-            {errors.incidentType && (
-              <p className="text-red-400 text-sm mt-1">
-                {errors.incidentType}
-              </p>
-            )}
-          </div>
+              {isSubmitting ? "Submitting..." : "Submit Anonymous Report"}
+            </button>
 
-          {/* Description */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Detailed Description *
-            </label>
-            <textarea
-              value={formData.description}
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  description: e.target.value,
-                }))
-              }
-              disabled={isSubmitting}
-              placeholder="Please provide a detailed description of the incident..."
-              rows={4}
-              maxLength={500}
-              className={`w-full px-4 py-3 bg-gray-800 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white placeholder-gray-400 resize-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-                errors.description ? "border-red-500" : "border-gray-700"
-              }`}
-            />
-            <div className="flex justify-between items-center mt-2">
-              <div>
-                {errors.description && (
-                  <p className="text-red-400 text-sm">{errors.description}</p>
-                )}
-              </div>
-              <p
-                className={`text-xs ${
-                  formData.description.length > 450
-                    ? "text-orange-400"
-                    : "text-gray-500"
-                }`}
-              >
-                {formData.description.length}/500 characters
-              </p>
-            </div>
-          </div>
+            <p className="text-xs text-gray-500 mt-4 text-center">
+              By submitting this form, you confirm that the information provided is
+              truthful to the best of your knowledge.
+            </p>
+          </form>
+        </main>
+      )}
 
-          {/* File Upload */}
-          <div className="mb-8">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Attach Evidence (Optional)
-            </label>
-            <div className="border-2 border-dashed border-gray-700 rounded-lg p-6 text-center hover:border-blue-500 transition-colors bg-gray-800/50">
-              <Upload className="w-8 h-8 text-gray-500 mx-auto mb-3" />
-              <p className="text-sm text-gray-300 mb-2">
-                Upload images, PDFs, or Word documents
-              </p>
-              <input
-                type="file"
-                multiple
-                accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx"
-                onChange={handleFileUpload}
-                disabled={isSubmitting}
-                className="hidden"
-                id="file-upload"
-              />
-              <label
-                htmlFor="file-upload"
-                className={`cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors inline-block font-medium ${
-                  isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-              >
-                Choose Files
-              </label>
-              <p className="text-xs text-gray-500 mt-2">
-                Max 10MB per file. Metadata will be automatically removed.
-              </p>
-            </div>
-
-            {/* File List */}
-            {files.length > 0 && (
-              <div className="mt-4 space-y-2">
-                {files.map((file, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between bg-gray-800 p-3 rounded-lg border border-gray-700"
-                  >
-                    <span className="text-sm text-gray-300 truncate flex-1">
-                      {file.name}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => removeFile(index)}
-                      disabled={isSubmitting}
-                      className="text-red-400 hover:text-red-300 ml-2 p-1 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-medium transition-colors focus:ring-4 focus:ring-blue-500/50 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? "Submitting..." : "Submit Anonymous Report"}
-          </button>
-
-          <p className="text-xs text-gray-500 mt-4 text-center">
-            By submitting this form, you confirm that the information provided is
-            truthful to the best of your knowledge.
-          </p>
-        </form>
-      </main>
-
-      {/* Footer */}
+      {/* Footer - always visible */}
       <footer className="bg-gray-900 border-t border-gray-800 mt-12">
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
