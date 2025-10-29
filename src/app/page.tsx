@@ -49,7 +49,7 @@ export default function Home() {
         formDataToSend.append('attachments', file);
       });
 
-      const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/standrews/report', {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + '/standrews/report', {
         method: 'POST',
         body: formDataToSend,
         // Don't set Content-Type - browser will set it automatically with boundary for multipart/form-data
