@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Eye, Lock, EyeOff, Upload, X, CheckCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ export default function Home() {
   const [showCommunityGuidelines, setShowCommunityGuidelines] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [countdown, setCountdown] = useState(5);
+  const router = useRouter();
 
   // Auto-redirect after successful submission
   useEffect(() => {
@@ -174,12 +176,24 @@ export default function Home() {
       {/* Header */}
       <header className="bg-gray-900 border-b border-gray-800 shadow-xl">
         <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-3 mb-2">
+          <button
+            type="button"
+            className="flex items-center gap-3 mb-2 cursor-pointer bg-transparent border-none p-0 focus:outline-none"
+            onClick={() => router.push("/")}
+            title="Go to Home"
+            tabIndex={0}
+            aria-label="Go to Home"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                router.push("/");
+              }
+            }}
+          >
             <Eye className="w-8 h-8 text-blue-500" />
             <h1 className="text-2xl font-bold text-white">St. Andrews Watch</h1>
-          </div>
+          </button>
           <p className="text-gray-400">
-            Anonymous Crime Reporting Platform
+            Anonymous Reporting Platform for Crime, Rule-breaking, and Community Concerns
           </p>
         </div>
       </header>
@@ -269,7 +283,7 @@ export default function Home() {
           className="bg-gray-900 rounded-xl shadow-2xl p-8 border border-gray-800"
         >
           <h2 className="text-xl font-semibold text-white mb-6">
-            Submit Anonymous Report
+            Submit Anonymous Report (Crime, Rule-breaking, or Concern)
           </h2>
 
           {/* Incident Type */}
