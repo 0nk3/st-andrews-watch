@@ -317,8 +317,6 @@ export default function Home() {
                 </option>
                 <option value="vandalism">Vandalism/Property Damage</option>
                 <option value="trespassing">Trespassing</option>
-                <option value="fraud">Fraud/Scams</option>
-                <option value="corruption">Police/Official Corruption</option>
                 <option value="suspicious-activity">Suspicious Activity</option>
                 <option value="other">Other</option>
               </select>
